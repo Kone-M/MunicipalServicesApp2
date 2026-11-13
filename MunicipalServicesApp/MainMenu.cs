@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -7,12 +7,11 @@ namespace MunicipalServicesApp
 {
     public partial class MainMenu : Form
     {
-        // Data structure to store reported issues
+        // Data structure to store reported issues (Part 1)
         private List<ReportedIssue> reportedIssues = new List<ReportedIssue>();
 
         public MainMenu()
         {
-            // Remove InitializeComponent() and call our setup method directly
             SetupMainMenu();
         }
 
@@ -54,15 +53,15 @@ namespace MunicipalServicesApp
             localEventsBtn.Click += LocalEventsBtn_Click;
             this.Controls.Add(localEventsBtn);
 
-            // Service Request Status button (disabled for now)
+            // Service Request Status button (UPDATED FOR TASK 3)
             Button serviceStatusBtn = new Button();
-            serviceStatusBtn.Text = "3. Service Request Status (Coming Soon)";
+            serviceStatusBtn.Text = "3. Service Request Status";
             serviceStatusBtn.Size = new Size(200, 40);
             serviceStatusBtn.Location = new Point(200, 240);
-            serviceStatusBtn.BackColor = Color.Gray;
+            serviceStatusBtn.BackColor = Color.SteelBlue;
             serviceStatusBtn.ForeColor = Color.White;
             serviceStatusBtn.Font = new Font("Arial", 10, FontStyle.Bold);
-            serviceStatusBtn.Enabled = false;
+            serviceStatusBtn.Click += (s, e) => { new ServiceStatusForm().ShowDialog(); };
             this.Controls.Add(serviceStatusBtn);
         }
 
