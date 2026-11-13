@@ -40,6 +40,10 @@ This project was developed in two distinct phases. **Part 1** focused on buildin
 - ✅ **History Tracking:** A "View History" button (using a Stack) shows the last 5 events viewed, while a "Clear Search History" button resets the Queue, Stack, and HashSet for a fresh start.
 
 ---
+<img width="679" height="485" alt="Screenshot 2026-11-13 201154" src="https://github.com/user-attachments/assets/2747579a-4826-4740-90fa-31025585f509" />
+<img width="828" height="485" alt="Screenshot 2026-11-13 201247" src="https://github.com/user-attachments/assets/4f2ae194-6244-4f2e-a927-95fb1fda50f6" />
+<img width="776" height="585" alt="Screenshot 2026-11-13 201215" src="https://github.com/user-attachments/assets/4c582f44-a211-426c-9b64-9255626dad0d" />
+<img width="577" height="385" alt="Screenshot 2026-11-13 201307" src="https://github.com/user-attachments/assets/e2992fbc-5954-48e4-9d33-9a86d92cb06b" />
 
 ## 🛠 Technical Requirements Met
 
