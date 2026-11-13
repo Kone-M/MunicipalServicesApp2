@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -21,7 +21,7 @@ namespace MunicipalServicesApp
 
         public LocalEventsForm()
         {
-            // Remove InitializeComponent() and call our setup methods directly
+            // FIXED: Removed InitializeComponent() and call our setup methods directly
             InitializeSampleData();
             SetupLocalEventsForm();
         }
@@ -52,20 +52,16 @@ namespace MunicipalServicesApp
             // Initialize data structures
             foreach (var eventItem in events)
             {
-                // Dictionary by category
                 if (!eventsByCategory.ContainsKey(eventItem.Category))
                     eventsByCategory[eventItem.Category] = new List<Event>();
                 eventsByCategory[eventItem.Category].Add(eventItem);
 
-                // SortedDictionary by date
                 if (!eventsByDate.ContainsKey(eventItem.Date))
                     eventsByDate[eventItem.Date] = new List<Event>();
                 eventsByDate[eventItem.Date].Add(eventItem);
 
-                // HashSet for unique categories
                 uniqueCategories.Add(eventItem.Category);
 
-                // Priority queue simulation
                 priorityEvents[eventItem.Priority] = eventItem;
             }
         }
@@ -77,7 +73,6 @@ namespace MunicipalServicesApp
             this.StartPosition = FormStartPosition.CenterScreen;
             this.BackColor = Color.White;
 
-            // Title
             Label titleLabel = new Label();
             titleLabel.Text = "Local Events & Announcements";
             titleLabel.Font = new Font("Arial", 16, FontStyle.Bold);
@@ -86,25 +81,16 @@ namespace MunicipalServicesApp
             titleLabel.Location = new Point(280, 20);
             this.Controls.Add(titleLabel);
 
-            // Search Section
             SetupSearchSection();
-
-            // Events Display Section
             SetupEventsDisplay();
-
-            // Recommendations Section
             SetupRecommendationsSection();
-
-            // Navigation buttons
             SetupNavigationButtons();
 
-            // Load initial events
             LoadAllEvents();
         }
 
         private void SetupSearchSection()
         {
-            // Search Label
             Label searchLabel = new Label();
             searchLabel.Text = "Search Events:";
             searchLabel.Font = new Font("Arial", 10, FontStyle.Bold);
@@ -112,7 +98,6 @@ namespace MunicipalServicesApp
             searchLabel.Location = new Point(50, 70);
             this.Controls.Add(searchLabel);
 
-            // Search TextBox
             TextBox searchTextBox = new TextBox();
             searchTextBox.Name = "searchTextBox";
             searchTextBox.Size = new Size(200, 25);
@@ -120,7 +105,6 @@ namespace MunicipalServicesApp
             searchTextBox.Font = new Font("Arial", 10, FontStyle.Regular);
             this.Controls.Add(searchTextBox);
 
-            // Category Filter
             Label categoryLabel = new Label();
             categoryLabel.Text = "Category:";
             categoryLabel.Font = new Font("Arial", 10, FontStyle.Regular);
@@ -141,7 +125,6 @@ namespace MunicipalServicesApp
             categoryComboBox.SelectedIndex = 0;
             this.Controls.Add(categoryComboBox);
 
-            // Search Button
             Button searchButton = new Button();
             searchButton.Text = "Search";
             searchButton.Size = new Size(80, 25);
@@ -155,7 +138,6 @@ namespace MunicipalServicesApp
 
         private void SetupEventsDisplay()
         {
-            // Events ListBox
             ListBox eventsListBox = new ListBox();
             eventsListBox.Name = "eventsListBox";
             eventsListBox.Size = new Size(500, 200);
@@ -164,7 +146,6 @@ namespace MunicipalServicesApp
             eventsListBox.SelectedIndexChanged += EventsListBox_SelectedIndexChanged;
             this.Controls.Add(eventsListBox);
 
-            // Event Details Label
             Label detailsLabel = new Label();
             detailsLabel.Text = "Event Details:";
             detailsLabel.Font = new Font("Arial", 10, FontStyle.Bold);
@@ -172,7 +153,6 @@ namespace MunicipalServicesApp
             detailsLabel.Location = new Point(50, 340);
             this.Controls.Add(detailsLabel);
 
-            // Event Details RichTextBox
             RichTextBox detailsRichTextBox = new RichTextBox();
             detailsRichTextBox.Name = "detailsRichTextBox";
             detailsRichTextBox.Size = new Size(500, 120);
@@ -185,7 +165,6 @@ namespace MunicipalServicesApp
 
         private void SetupRecommendationsSection()
         {
-            // Recommendations Label
             Label recLabel = new Label();
             recLabel.Text = "Recommended Events:";
             recLabel.Font = new Font("Arial", 10, FontStyle.Bold);
@@ -193,7 +172,6 @@ namespace MunicipalServicesApp
             recLabel.Location = new Point(570, 120);
             this.Controls.Add(recLabel);
 
-            // Recommendations ListBox
             ListBox recListBox = new ListBox();
             recListBox.Name = "recListBox";
             recListBox.Size = new Size(200, 150);
@@ -204,7 +182,6 @@ namespace MunicipalServicesApp
 
         private void SetupNavigationButtons()
         {
-            // Back Button
             Button backButton = new Button();
             backButton.Text = "Back to Main Menu";
             backButton.Size = new Size(120, 35);
@@ -215,7 +192,6 @@ namespace MunicipalServicesApp
             backButton.Click += (s, e) => this.Close();
             this.Controls.Add(backButton);
 
-            // View History Button (Stack demonstration)
             Button historyButton = new Button();
             historyButton.Text = "View History";
             historyButton.Size = new Size(100, 35);
@@ -226,7 +202,6 @@ namespace MunicipalServicesApp
             historyButton.Click += HistoryButton_Click;
             this.Controls.Add(historyButton);
 
-            // Clear Search History Button (Queue demonstration)
             Button clearHistoryButton = new Button();
             clearHistoryButton.Text = "Clear Search History";
             clearHistoryButton.Size = new Size(120, 35);
@@ -243,7 +218,6 @@ namespace MunicipalServicesApp
             var eventsListBox = this.Controls.Find("eventsListBox", true)[0] as ListBox;
             eventsListBox.Items.Clear();
 
-            // Using SortedDictionary to display events in date order
             foreach (var dateEvents in eventsByDate)
             {
                 foreach (var eventItem in dateEvents.Value)
@@ -252,7 +226,6 @@ namespace MunicipalServicesApp
                 }
             }
 
-            // Update recommendations
             UpdateRecommendations();
         }
 
@@ -267,12 +240,10 @@ namespace MunicipalServicesApp
 
             eventsListBox.Items.Clear();
 
-            // Search logic using Dictionary and HashSet for efficiency
             var searchResults = new List<Event>();
 
             if (selectedCategory == "All Categories")
             {
-                // Search across all categories
                 foreach (var categoryEvents in eventsByCategory.Values)
                 {
                     searchResults.AddRange(categoryEvents.Where(ev =>
@@ -283,7 +254,6 @@ namespace MunicipalServicesApp
             }
             else
             {
-                // Search within specific category using Dictionary
                 if (eventsByCategory.ContainsKey(selectedCategory))
                 {
                     searchResults = eventsByCategory[selectedCategory].Where(ev =>
@@ -293,21 +263,18 @@ namespace MunicipalServicesApp
                 }
             }
 
-            // Add to recent searches queue (limit to 5)
             foreach (var result in searchResults.Take(3))
             {
                 if (recentSearches.Count >= 5)
-                    recentSearches.Dequeue(); // Remove oldest search
+                    recentSearches.Dequeue();
                 recentSearches.Enqueue(result);
             }
 
-            // Update user preferences based on search
             if (!string.IsNullOrEmpty(searchTerm))
             {
                 userPreferences.Add(selectedCategory);
             }
 
-            // Display results
             foreach (var eventItem in searchResults.OrderBy(ev => ev.Date))
             {
                 eventsListBox.Items.Add($"{eventItem.Date:MMM dd}: {eventItem.Title} - {eventItem.Category}");
@@ -318,7 +285,6 @@ namespace MunicipalServicesApp
                 eventsListBox.Items.Add("No events found matching your search criteria.");
             }
 
-            // Update recommendations based on search
             UpdateRecommendations();
         }
 
@@ -330,16 +296,12 @@ namespace MunicipalServicesApp
             if (eventsListBox.SelectedIndex >= 0)
             {
                 string selectedItem = eventsListBox.SelectedItem.ToString();
-
-                // Find the event in our data structures
                 var selectedEvent = FindEventByDisplayString(selectedItem);
 
                 if (selectedEvent != null)
                 {
-                    // Add to viewed events stack
                     viewedEvents.Push(selectedEvent);
 
-                    // Display event details
                     detailsRichTextBox.Text = $"Title: {selectedEvent.Title}\n\n" +
                                             $"Category: {selectedEvent.Category}\n\n" +
                                             $"Date: {selectedEvent.Date:dd MMMM yyyy}\n\n" +
@@ -356,14 +318,13 @@ namespace MunicipalServicesApp
 
             if (viewedEvents.Count > 0)
             {
-                // Show viewing history using Stack
                 detailsRichTextBox.Text = "Recently Viewed Events (Most Recent First):\n\n";
                 int count = 1;
                 foreach (var eventItem in viewedEvents)
                 {
                     detailsRichTextBox.Text += $"{count}. {eventItem.Title} ({eventItem.Date:MMM dd})\n";
                     count++;
-                    if (count > 5) break; // Show only last 5
+                    if (count > 5) break;
                 }
             }
             else
@@ -374,7 +335,6 @@ namespace MunicipalServicesApp
 
         private void ClearHistoryButton_Click(object sender, EventArgs e)
         {
-            // Clear both stacks and queues
             recentSearches.Clear();
             viewedEvents.Clear();
             userPreferences.Clear();
@@ -390,16 +350,13 @@ namespace MunicipalServicesApp
             var recListBox = this.Controls.Find("recListBox", true)[0] as ListBox;
             recListBox.Items.Clear();
 
-            // Recommendation algorithm based on user preferences and search history
             var recommendations = new List<Event>();
 
-            // Priority-based recommendations (using SortedDictionary)
             if (priorityEvents.Count > 0)
             {
                 recommendations.AddRange(priorityEvents.Values.Take(2));
             }
 
-            // Category-based recommendations (using user preferences HashSet)
             foreach (var preference in userPreferences)
             {
                 if (eventsByCategory.ContainsKey(preference))
@@ -413,7 +370,6 @@ namespace MunicipalServicesApp
                 }
             }
 
-            // Recent searches-based recommendations (using Queue)
             foreach (var recentSearch in recentSearches)
             {
                 var similarEvents = eventsByCategory.Values
@@ -424,7 +380,6 @@ namespace MunicipalServicesApp
                 recommendations.AddRange(similarEvents);
             }
 
-            // Remove duplicates and limit to 5 recommendations
             var uniqueRecommendations = recommendations
                 .Distinct()
                 .OrderBy(ev => ev.Date)
@@ -440,7 +395,6 @@ namespace MunicipalServicesApp
             }
             else
             {
-                // Fallback: Show upcoming events
                 var upcomingEvents = eventsByDate
                     .Where(kv => kv.Key >= DateTime.Today)
                     .SelectMany(kv => kv.Value)
@@ -455,7 +409,6 @@ namespace MunicipalServicesApp
 
         private Event FindEventByDisplayString(string displayString)
         {
-            // Helper method to find event from display string
             foreach (var dateEvents in eventsByDate)
             {
                 foreach (var eventItem in dateEvents.Value)
@@ -470,7 +423,6 @@ namespace MunicipalServicesApp
         }
     }
 
-    // Event class for Part 2
     public class Event
     {
         public string Title { get; set; }
@@ -478,7 +430,7 @@ namespace MunicipalServicesApp
         public string Description { get; set; }
         public DateTime Date { get; set; }
         public string Location { get; set; }
-        public int Priority { get; set; } // 1=High, 2=Medium, 3=Low
+        public int Priority { get; set; }
 
         public Event(string title, string category, string description, DateTime date, string location, int priority)
         {
