@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
@@ -19,7 +19,6 @@ namespace MunicipalServicesApp
 
         public ReportIssuesForm()
         {
-            // Remove InitializeComponent() and call our setup method directly
             SetupReportIssuesForm();
         }
 
@@ -180,7 +179,6 @@ namespace MunicipalServicesApp
                 statusLabel.Text = Path.GetFileName(attachedFilePath);
                 statusLabel.ForeColor = Color.Blue;
 
-                // Update progress
                 UpdateProgress();
             }
         }
@@ -203,7 +201,6 @@ namespace MunicipalServicesApp
                 return;
             }
 
-            // Create and store the issue
             ReportedIssue newIssue = new ReportedIssue
             {
                 Location = locationTextBox.Text,
@@ -212,9 +209,6 @@ namespace MunicipalServicesApp
                 AttachmentPath = attachedFilePath,
                 ReportDate = DateTime.Now
             };
-
-            // In a real application, you would save this to a database
-            // For now, we'll just show a success message
 
             MessageBox.Show($"Issue reported successfully!\n\nLocation: {newIssue.Location}\nCategory: {newIssue.Category}\nThank you for your contribution!",
                           "Report Submitted", MessageBoxButtons.OK, MessageBoxIcon.Information);
